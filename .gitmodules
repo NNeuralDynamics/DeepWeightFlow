@@ -1,0 +1,6 @@
+[submodule "Neural-Network-Diffusion"]
+	path = Neural-Network-Diffusion
+	url = git@github.com:NUS-HPC-AI-Lab/Neural-Network-Diffusion.git
+[submodule "DWSNets"]
+	path = DWSNets
+	url = git@github.com:AvivNavon/DWSNets.git
