@@ -130,13 +130,17 @@ python train_and_generate.py --model <model_name> [options]
 #### 1. Train MLP on MNIST
 ```bash
 # Test all hidden dimensions with both modes
-python train_and_generate.py --model mlp_mnist
+python train_and_generate.py --model mlp_mnist 
 
 # Test specific hidden dimension with Git Re-Basin
-python train_and_generate.py --model mlp_mnist --hidden_dim 256 --mode with_gitrebasin
+python train_and_generate.py --model mlp_mnist --hidden_dim 512 --mode with_gitrebasin
 
 # Without alignment
 python train_and_generate.py --model mlp_mnist --mode without_rebasin
+
+# A specific test run for reproducability 
+python flowmatching/train_and_generate.py --model mlp_mnist --hidden_dim 512 --config flowmatching/constants.json
+
 ```
 
 #### 2. Train MLP on Fashion-MNIST
