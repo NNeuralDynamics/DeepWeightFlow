@@ -376,7 +376,7 @@ def train_standard_model(args, config, model_config, model_dir, test_loader):
                 )
                 flat_latent = ipca.fit_transform(flat_target_weights.cpu().numpy())
                 target_tensor = torch.tensor(flat_latent, dtype=torch.float32)
-                actual_dim = model_config['pca_components']
+                actual_dim = flat_latent.shape[1] # model_config['pca_components'] 
             else:
                 target_tensor = flat_target_weights
                 actual_dim = flat_dim
@@ -384,17 +384,21 @@ def train_standard_model(args, config, model_config, model_dir, test_loader):
             source_std = model_config['source_std']
             source_tensor = torch.randn_like(target_tensor) * source_std
 
+            n_samples = target_tensor.shape[0]
+            batch_size_eff = min(model_config['batch_size'], n_samples)
+            drop_last = n_samples > batch_size_eff
+
             sourceloader = DataLoader(
                 TensorDataset(source_tensor), 
-                batch_size=model_config['batch_size'], 
+                batch_size=batch_size_eff, 
                 shuffle=True, 
-                drop_last=True
+                drop_last=drop_last
             )
             targetloader = DataLoader(
                 TensorDataset(target_tensor), 
-                batch_size=model_config['batch_size'], 
+                batch_size=batch_size_eff, 
                 shuffle=True, 
-                drop_last=True
+                drop_last=drop_last
             )
 
             # Create flow model
